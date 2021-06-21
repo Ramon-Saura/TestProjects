@@ -8,6 +8,17 @@ const connection = mysql.createConnection({
 })
 
 function userController(){
+    function getList(req, res){
+        const sql = 'SELECT * FROM users'
+        connection.query(sql,(error, result)=>{
+            if(error)throw error
+            if(result.length > 0){
+                res.json(result)
+            }else{
+                res.send('Not result')
+            }
+        })
+    }
     function get(req, res){
         const { username } = req.params
         const sql = `SELECT * FROM users WHERE username = '${username}'`
@@ -54,7 +65,7 @@ function userController(){
                 res.send('User deleted!')  
         })
     }
-    return {get, post, put, deleteUser}
+    return {get, post, put, deleteUser, getList}
 }
 
 module.exports = userController

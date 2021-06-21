@@ -62,7 +62,7 @@ export default function App() {
   const authContext = React.useMemo(()=>{
     return({
       signIn: async(foundUser) => {
-        const userToken  = String(foundUser[0].userToken)
+        const userToken  = String(foundUser[0].token)
         const userName  = foundUser[0].username
         const userDepartment = foundUser[0].department
           try{
@@ -104,7 +104,7 @@ export default function App() {
       try{
         userToken = await AsyncStorage.getItem('userToken')
       }catch(error){
-        alert('Moooooc!!')
+        Alert.alert('Error useEffect')
       }
       dispatch({ type: 'REGISTER', token: userToken})
     },1000)

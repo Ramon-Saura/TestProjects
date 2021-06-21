@@ -10,7 +10,7 @@ app.use(express.urlencoded({
 app.use(express.json())
 
 const userRouter = require('./routes/user-router')()
-app.use('/users', userRouter)
+app.use('/api/users', userRouter)
 
 
 /* app.get('/',(req, res)=>{

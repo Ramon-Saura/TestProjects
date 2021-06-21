@@ -1,12 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Alert, Platform, TextInput } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import FontAwsome from 'react-native-vector-icons/FontAwesome'
 import Feather from 'react-native-vector-icons/Feather'
 import { AuthContext } from '../context'
-import Users from '../../../mock.users'
+import loginStore from '../../store/login-store'
+import { loadUsers } from '../../actions/login-actions'
 
 export default function Login({navigation}){
+    const [users, setUsers] =  React.useState(loginStore.getUsersList())
+    console.log(users[0])
+    useEffect(()=>{
+        loginStore.addChangeListener(onChange)
+        console.log('I am in useEffect')
+        if(users.length === 0){
+            console.log('before load users')
+            loadUsers()
+            console.log(users)
+        }
+        return(loginStore.removeChangeListener(onChange))
+    },[users.length])
+
+    function onChange(){
+        setUsers(loginStore.getUsersList())
+    }
 
     const [data, setData] = React.useState({
         userName:'',
@@ -18,7 +35,7 @@ export default function Login({navigation}){
     })
 
     const { signIn } = React.useContext( AuthContext )
-
+    
     const textInputChange = (val) => {
         if(val.trim().length >= 4){
             setData({
@@ -61,7 +78,7 @@ export default function Login({navigation}){
     }
 
     const loginHandle = (userName, password) => {
-        const foundUser = Users.filter(item => {
+        const foundUser = users.filter(item => {
             return userName === item.username && password === item.password
         })
         if(data.userName.length === 0 || data.password.length === 0){

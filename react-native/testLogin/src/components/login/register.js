@@ -4,9 +4,21 @@ import * as Animatable from 'react-native-animatable'
 import FontAwsome from 'react-native-vector-icons/FontAwesome'
 import Feather from 'react-native-vector-icons/Feather'
 import { AuthContext } from '../context'
-import Users from '../../../mock.users'
 
 export default function Register({navigation}){
+    const [users, setUsers] =  React.useState(loginStore.getUsersList())
+    console.log(users[0])
+    useEffect(()=>{
+        loginStore.addChangeListener(onChange)
+        if(users.length === 0){
+            loadUsers()
+        }
+        return(loginStore.removeChangeListener(onChange))
+    },[users.length])
+
+    function onChange(){
+        setUsers(loginStore.getUsersList())
+    }
 
     const [data, setData] = React.useState({
         userName:'',
@@ -101,7 +113,8 @@ export default function Register({navigation}){
        }
     }
     const handleValidUser = (userName)=>{
-        const findUser = Users.filter(item =>{
+        console.log(findUser)
+        const findUser = users.filter(item =>{
             return userName === item.username
         })
         if(findUser[0] !== undefined){
