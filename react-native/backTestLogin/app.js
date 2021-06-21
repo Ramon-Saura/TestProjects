@@ -1,6 +1,4 @@
-const debug  = require('debug')('app.js')
 const express = require('express')
-const mysql = require('mysql')
 
 const port = process.env.PORT || 3000
 
@@ -11,14 +9,11 @@ app.use(express.urlencoded({
 }))
 app.use(express.json())
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user:'root',
-    password:'',
-    database:'test'
-})
+const userRouter = require('./routes/user-router')()
+app.use('/users', userRouter)
 
-app.get('/',(req, res)=>{
+
+/* app.get('/',(req, res)=>{
     res.send('Hello word!')
 })
 app.get('/list',(req, res)=>{
@@ -79,13 +74,7 @@ app.delete('/delete/:id',(req, res)=>{
             res.send('User deleted!')  
     })
 
-})
-
-connection.connect(error=>{
-    if(error) throw error
-    console.log('Database server is running!')
-})
-
+}) */
 app.listen(port, ()=>{
     console.log(`Server is running on port ${port}!`)
 })
