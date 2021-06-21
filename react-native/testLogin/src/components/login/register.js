@@ -124,7 +124,8 @@ export default function Register({navigation}){
         })
     }
     const registerHandle = (userName, department, password)=>{
-        if(userName < 4 || department !== 'admin' || department !== 'user' || password < 8){
+        console.log(userName, department, password)
+        if(userName < 4 || password < 8){
             Alert.alert('Wrong Input','Username, department or password is incorrect.',[{text: 'OK'}])
             return
         }
