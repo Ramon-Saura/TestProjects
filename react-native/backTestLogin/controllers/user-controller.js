@@ -34,16 +34,16 @@ function userController(){
     function post(req, res){
         const sql = 'INSERT INTO users SET ?'
 
-        const userObj = {
+        const newUser = {
             username: req.body.username,
             password: req.body.password,
             token: req.body.token,
             department: req.body.department
         }
 
-        connection.query(sql, userObj, error =>{
+        connection.query(sql, newUser, error =>{
             if (error) throw error
-            res.send('User created!')
+            res.send(newUser)
         })
     }
     function put(req, res){

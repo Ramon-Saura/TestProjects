@@ -8,6 +8,7 @@ import Register from './src/components/login/register'
 import Profile from './src/components/profile/profile'
 import { AuthContext } from './src/components/context'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import saveUser from './src/actions/login-actions'
 
 
 const randomToken = require('random-token').create('abcdefghijklmnopqrstuvwxzyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
@@ -86,7 +87,7 @@ export default function App() {
         const userDepartment = department
         const userPassword = password
         const userToken = randomToken(8)
-        console.log(username, userDepartment, userPassword, userToken)
+        saveUser(username, userDepartment, userPassword, userToken)
         try{
           AsyncStorage.setItem('userToken', userToken)
         }catch(error){

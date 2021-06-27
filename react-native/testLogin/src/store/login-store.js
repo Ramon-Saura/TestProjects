@@ -23,10 +23,16 @@ class LoginStore extends EventEmitter{
 
 const loginStore = new LoginStore()
 dispatcher.register((action)=>{
-    switch(action.type){
+    switch (action.type){
         case actionTypes.USERS_LIST:
-            console.log('store'+ action.data)
             _users = action.data
+            loginStore.emitChange()
+        break
+        case actionTypes.CREATE_USER:
+            _users = [
+                ...users,
+                {...action.data}
+            ]
             loginStore.emitChange()
         break
     }

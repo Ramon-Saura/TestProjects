@@ -5,6 +5,7 @@
     "name": "loginApp",
     "slug": "loginApp",
     "version": "41.0.0",
+    "sdkVersion":"41.0.0",
     "assetBundlePatterns": [
       "**/*"
     ]

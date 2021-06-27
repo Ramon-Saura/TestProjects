@@ -9,16 +9,12 @@ import { loadUsers } from '../../actions/login-actions'
 
 export default function Login({navigation}){
     const [users, setUsers] =  React.useState(loginStore.getUsersList())
-    console.log(users[0])
     useEffect(()=>{
         loginStore.addChangeListener(onChange)
-        console.log('I am in useEffect')
         if(users.length === 0){
-            console.log('before load users')
             loadUsers()
-            console.log(users)
         }
-        return(loginStore.removeChangeListener(onChange))
+        return ()=>(loginStore.removeChangeListener(onChange)) 
     },[users.length])
 
     function onChange(){
@@ -76,7 +72,6 @@ export default function Login({navigation}){
             secureTextEntry: !data.secureTextEntry
         })
     }
-
     const loginHandle = (userName, password) => {
         const foundUser = users.filter(item => {
             return userName === item.username && password === item.password

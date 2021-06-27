@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Platform, TextInput, Alert} from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import FontAwsome from 'react-native-vector-icons/FontAwesome'
 import Feather from 'react-native-vector-icons/Feather'
 import { AuthContext } from '../context'
+import loginStore from '../../store/login-store'
+import loadUsers from '../../actions/login-actions'
 
 export default function Register({navigation}){
     const [users, setUsers] =  React.useState(loginStore.getUsersList())
-    console.log(users[0])
+    
     useEffect(()=>{
         loginStore.addChangeListener(onChange)
         if(users.length === 0){
@@ -113,7 +115,6 @@ export default function Register({navigation}){
        }
     }
     const handleValidUser = (userName)=>{
-        console.log(findUser)
         const findUser = users.filter(item =>{
             return userName === item.username
         })
@@ -137,7 +138,6 @@ export default function Register({navigation}){
         })
     }
     const registerHandle = (userName, department, password)=>{
-        console.log(userName, department, password)
         if(userName < 4 || password < 8){
             Alert.alert('Wrong Input','Username, department or password is incorrect.',[{text: 'OK'}])
             return
