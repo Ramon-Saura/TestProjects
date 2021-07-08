@@ -1,18 +1,15 @@
 import React from 'react'
 import { Button, View, Text, StyleSheet } from 'react-native'
-import { AuthContext } from '../context'
 
-export default function Profile(){
-
-    const { signOut } = React.useContext(AuthContext)
-
+export default function Main({route, navigation}){
+    const user = route.params.username
     return(
         <View style={styles.container}>
-            <Text>You are in profile</Text>
+            <Text>You are login in correctly, hello {user} </Text>
             <Button 
-                onPress={()=>{signOut()}}
+                onPress={()=>navigation.navigate('Profile')}
                 style={styles.button}
-                title='SignOut'
+                title='Profile'
             >
             </Button>
         </View>

@@ -3,7 +3,9 @@ import axios from 'axios'
 import actionTypes from "./action-types"
 
 export function loadUsers(){
-    return axios.get(`http://192.168.1.53:3000/api/users/`).then((list)=>{ 
+    /* 10.0.4.176   aguamarina*/
+    /* 192.168.1.49 cala */
+    return axios.get(`http://10.0.4.176:3000/api/users/`).then((list)=>{ 
         dispatcher.dispatch({
                 type: actionTypes.USERS_LIST,
                 data: list.data
@@ -13,8 +15,8 @@ export function loadUsers(){
             console.log(error)
         })
 }
-export function newUser(userName, userDepartment, userPassword, userToken){
-    return axios.post(`http://192.168.1.53:3000/api/users/add`, {
+export default function newUser(userName, userDepartment, userPassword, userToken){
+    return axios.post(`http://10.0.4.176:3000/api/users/add`, {
         username: userName,
         department: userDepartment,
         password: userPassword,

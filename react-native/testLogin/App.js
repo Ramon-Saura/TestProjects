@@ -6,6 +6,7 @@ import Welcome from './src/components/login/welcome'
 import Login from './src/components/login/login'
 import Register from './src/components/login/register'
 import Profile from './src/components/profile/profile'
+import Main from './src/components/main/main'
 import { AuthContext } from './src/components/context'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import saveUser from './src/actions/login-actions'
@@ -124,6 +125,7 @@ export default function App() {
       <NavigationContainer>
         {loginState.userToken !== null ? (
         <Stack.Navigator headerMode='none'>
+         <Stack.Screen name='Main' component={Main} initialParams={{username: loginState.userName}}/>
          <Stack.Screen name='Profile' component={Profile}/>
         </Stack.Navigator> 
         )

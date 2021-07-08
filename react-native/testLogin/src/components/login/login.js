@@ -20,7 +20,6 @@ export default function Login({navigation}){
     function onChange(){
         setUsers(loginStore.getUsersList())
     }
-
     const [data, setData] = React.useState({
         userName:'',
         password:'',

@@ -43,7 +43,7 @@ function userController(){
 
         connection.query(sql, newUser, error =>{
             if (error) throw error
-            res.send(newUser)
+            res.json(newUser)
         })
     }
     function put(req, res){
