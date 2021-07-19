@@ -1,7 +1,11 @@
 import React from 'react'
 import { Button, View, Text, StyleSheet } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack'
+import Icon from 'react-native-vector-icons/Ionicons'
 
-export default function Main({route, navigation}){
+const Stack =  createStackNavigator()
+
+const MainScreen = ({route, navigation})=>{
     const user = route.params.username
     return(
         <View style={styles.container}>
@@ -14,6 +18,25 @@ export default function Main({route, navigation}){
             </Button>
         </View>
     )
+}
+
+export default function Main ({route, navigation}){
+    const user = route.params.username
+    return(
+        <Stack.Navigator screenOptions={{
+                headerStyle:{backgroundColor:'#33d5ff'},
+                headerTintColor:'#fff',
+                headerTitleStyle:{fontWeight:'bold'}
+            }}>
+            <Stack.Screen name='Main' component={MainScreen} initialParams={{username: user}} options={{
+                headerLeft: ()=>{
+                    return(
+                        <Icon.Button name='ios-menu' size={30} marginLeft={10} backgroundColor='#33d5ff' onPress={()=>{navigation.openDrawer()}}></Icon.Button>
+                    )
+                }
+            }}/>
+        </Stack.Navigator>
+    )    
 }
 
 const styles = StyleSheet.create({

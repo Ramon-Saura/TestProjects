@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ActivityIndicator, StyleSheet, View, Alert} from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack'
+import { createStackNavigator, HeaderStyleInterpolators } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
 import Welcome from './src/components/login/welcome'
 import Login from './src/components/login/login'
@@ -10,10 +10,12 @@ import Main from './src/components/main/main'
 import { AuthContext } from './src/components/context'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import saveUser from './src/actions/login-actions'
-
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerContent } from './src/components/drawer/drawer'
 
 const randomToken = require('random-token').create('abcdefghijklmnopqrstuvwxzyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
+const Drawer = createDrawerNavigator()
 
 export default function App() {
 
@@ -124,10 +126,10 @@ export default function App() {
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         {loginState.userToken !== null ? (
-        <Stack.Navigator headerMode='none'>
-         <Stack.Screen name='Main' component={Main} initialParams={{username: loginState.userName}}/>
-         <Stack.Screen name='Profile' component={Profile}/>
-        </Stack.Navigator> 
+        <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>}>
+          <Drawer.Screen name='Main' component={Main} initialParams={{username: loginState.userName}}/>
+          <Drawer.Screen name='Profile' component={Profile}/>
+        </Drawer.Navigator>
         )
         :
         (

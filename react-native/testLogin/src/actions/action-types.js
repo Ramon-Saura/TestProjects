@@ -3,5 +3,9 @@ export default {
     LOGIN: 'LOGIN',
     LOGOUT: 'LOGOUT',
     CREATE_USER: 'CREATE_USER' ,
-    USERS_LIST: 'USERS_LIST'   
+    USERS_LIST: 'USERS_LIST',
+    GET_USER: 'GET_USER',
+    CREATE_ROOM:'CREATE_ROOM',
+    ROOM_LIST:'ROOM_LIST',
+    GET_ROOM:'GET_ROOM'   
 }

@@ -1,8 +1,12 @@
 import React from 'react'
 import { Button, View, Text, StyleSheet } from 'react-native'
 import { AuthContext } from '../context'
+import { createStackNavigator } from '@react-navigation/stack'
+import Icon from 'react-native-vector-icons/Ionicons'
 
-export default function Profile(){
+const Stack =  createStackNavigator()
+
+const ProfileScreen =()=>{
 
     const { signOut } = React.useContext(AuthContext)
 
@@ -16,6 +20,29 @@ export default function Profile(){
             >
             </Button>
         </View>
+    )
+}
+
+export default function Profile({navigation}){
+    return(
+        <Stack.Navigator screenOptions={{
+            headerStyle:{backgroundColor:'#33d5ff'},
+            headerTintColor:'#fff',
+            headerTitleStyle:{fontWeight:'bold'}
+        }}>
+            <Stack.Screen name='Profile' component={ProfileScreen} options={{
+                headerLeft: ()=>{
+                    return(
+                        <Icon.Button 
+                        name='ios-menu' 
+                        size={30} 
+                        marginLeft={10} 
+                        backgroundColor='#33d5ff' 
+                        onPress={()=>{navigation.openDrawer()}}></Icon.Button>
+                    )
+                }
+            }}/>
+        </Stack.Navigator>
     )
 }
 

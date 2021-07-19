@@ -9,7 +9,7 @@ function routes(){
     userRouter.route("/:username").get(controller.get)
     userRouter.route("/add").post(controller.post)
     userRouter.route("/update/:id").put(controller.put)
-    userRouter.route("/:id").delete(controller.deleteUser)
+    userRouter.route("/delete/:id").delete(controller.deleteUser)
     return userRouter
 }
 
