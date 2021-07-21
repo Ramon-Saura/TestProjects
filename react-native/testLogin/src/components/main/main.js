@@ -1,22 +1,45 @@
-import React from 'react'
-import { Button, View, Text, StyleSheet } from 'react-native'
+import React, { useEffect } from 'react'
+import { FlatList, View, Text, StyleSheet, ActivityIndicator} from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Icon from 'react-native-vector-icons/Ionicons'
+import roomStore from '../../store/rooms-store'
+import * as Animatable from 'react-native-animatable'
+import {loadRooms} from '../../actions/room-actions'
 
 const Stack =  createStackNavigator()
 
 const MainScreen = ({route, navigation})=>{
     const user = route.params.username
+    const [rooms, setRooms] = React.useState(roomStore.getRoomsList())
+    useEffect(()=>{
+        roomStore.addChangeListener(onChange)
+        if(rooms.length === 0){
+            loadRooms()
+        }
+        return ()=>(roomStore.removeChangeListener(onChange))
+    },[rooms.length])
+    function onChange(){
+        setRooms(roomStore.getRoomsList())
+    }
+    if(!rooms){
+        return(
+            <View style={styles.container}>
+                <ActivityIndicator size='large'/>
+            </View>
+        )
+    }
     return(
-        <View style={styles.container}>
-            <Text>You are login in correctly, hello {user} </Text>
-            <Button 
-                onPress={()=>navigation.navigate('Profile')}
-                style={styles.button}
-                title='Profile'
-            >
-            </Button>
-        </View>
+        <Animatable.View
+            animation='fadeInUpBig' 
+            style={styles.container}>
+            <FlatList
+                keyExtractor={(item)=>(item.id.toString())}
+                data={rooms}
+                renderItem={({item})=>(
+                    <Text style={styles.item}>{item.number}</Text>
+                )}
+            />
+        </Animatable.View>
     )
 }
 
@@ -45,13 +68,13 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-    button: {
-        alignItems: 'center',
-        marginTop: 50,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-        backgroundColor: '#33d5ff'
+    item:{
+        flex: 1,
+        backgroundColor: '#33d5ff',
+        marginTop: 10,
+        paddingVertical: 50,
+        paddingHorizontal: 100,
+        fontWeight: 'bold',
+        color: '#fff'
     }
   })

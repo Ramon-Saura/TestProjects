@@ -31,7 +31,8 @@ export default function App() {
       case 'RETRIVE_TOKEN':
         return {
           ...prevState,
-          userToken: action.type,
+          userToken: action.token,
+          userName: action.username,
           isLoading: false
         }
       case 'LOGIN':
@@ -71,6 +72,7 @@ export default function App() {
         const userDepartment = foundUser[0].department
           try{
             await AsyncStorage.setItem('userToken', userToken)
+            await AsyncStorage.setItem('userName', userName)
           }catch(error){
             Alert.alert('Error signIn')
           }
@@ -80,6 +82,7 @@ export default function App() {
       signOut: async()=>{
         try{
           AsyncStorage.removeItem('userToken')
+          AsyncStorage.removeItem('userName')
         }catch(error){
           Alert.alert('Error signOut')
         }
@@ -93,6 +96,7 @@ export default function App() {
         saveUser(username, userDepartment, userPassword, userToken)
         try{
           AsyncStorage.setItem('userToken', userToken)
+          AsyncStorage.setItem('userName', username)
         }catch(error){
           Alert.alert('Error Register')
         }
@@ -104,13 +108,16 @@ export default function App() {
   useEffect(()=>{
     setTimeout( async()=>{
       let userToken
+      let userName
       userToken = null
+      userName = null
       try{
         userToken = await AsyncStorage.getItem('userToken')
+        userName = await AsyncStorage.getItem('userName')
       }catch(error){
         Alert.alert('Error useEffect')
       }
-      dispatch({ type: 'REGISTER', token: userToken})
+      dispatch({ type: 'RETRIVE_TOKEN', token: userToken, username: userName})
     },1000)
   },[])
 
@@ -126,9 +133,9 @@ export default function App() {
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         {loginState.userToken !== null ? (
-        <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>}>
+        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
           <Drawer.Screen name='Main' component={Main} initialParams={{username: loginState.userName}}/>
-          <Drawer.Screen name='Profile' component={Profile}/>
+          <Drawer.Screen name='Profile' component={Profile} initialParams={{username: loginState.userName}}/>
         </Drawer.Navigator>
         )
         :

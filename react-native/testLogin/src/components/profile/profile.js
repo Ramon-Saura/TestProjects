@@ -1,36 +1,52 @@
-import React from 'react'
-import { Button, View, Text, StyleSheet } from 'react-native'
-import { AuthContext } from '../context'
+import React, { useEffect } from 'react'
+import { ActivityIndicator, View, Text, StyleSheet, Alert } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Icon from 'react-native-vector-icons/Ionicons'
+import loginStore from '../../store/login-store'
+import { loadUser } from '../../actions/login-actions'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { AuthContext } from '../context'
 
 const Stack =  createStackNavigator()
 
-const ProfileScreen =()=>{
+const ProfileScreen =({route, navigation})=>{
+    const username = route.params.username
+    const [user, setUser]= React.useState(loginStore.getUser(username))
 
-    const { signOut } = React.useContext(AuthContext)
+    useEffect(()=>{
+        loginStore.addChangeListener(onChange)
+        if(!user){
+            loadUser(username)
+        }
+        return ()=>(loginStore.removeChangeListener(onChange))
+    },[user])
 
+    function onChange(){
+        setUser(loginStore.getUser(username))
+    }
+    if(!user){
+        return(
+            <View style={styles.container}>
+                <ActivityIndicator size='large'/>
+            </View>
+        )
+    }
     return(
         <View style={styles.container}>
-            <Text>You are in profile</Text>
-            <Button 
-                onPress={()=>{signOut()}}
-                style={styles.button}
-                title='SignOut'
-            >
-            </Button>
+            <Text>You are in profile {username}</Text>
         </View>
     )
 }
 
-export default function Profile({navigation}){
+export default function Profile({route, navigation}){
+    const user = route.params.username
     return(
         <Stack.Navigator screenOptions={{
             headerStyle:{backgroundColor:'#33d5ff'},
             headerTintColor:'#fff',
             headerTitleStyle:{fontWeight:'bold'}
         }}>
-            <Stack.Screen name='Profile' component={ProfileScreen} options={{
+            <Stack.Screen name='Profile' component={ProfileScreen} initialParams={{username: user}} options={{
                 headerLeft: ()=>{
                     return(
                         <Icon.Button 

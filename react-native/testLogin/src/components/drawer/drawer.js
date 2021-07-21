@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {View, StyleSheet} from 'react-native'
 import {Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch} from 'react-native-paper'
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthContext } from '../context'
+import loginStore from '../../store/login-store'
 
 
-export function DrawerContent(props){
+export function DrawerContent({state, navigation, ...props}){
+    const username = state.routes[0].params.username
+    const [user, setUser] =  React.useState(loginStore.getUser(username))
+
     const { signOut } = React.useContext(AuthContext)
+
     return(
         <View style={{flex:1}}>
             <DrawerContentScrollView {...props}>
@@ -21,8 +26,8 @@ export function DrawerContent(props){
                             size={50}    
                             />
                             <View style={{marginLeft: 15, flexDirection:'column'}}>
-                            <Title style={styles.title}>Cap de fava</Title>
-                            <Caption style={styles.caption}>@capdefava</Caption>
+                            <Title style={styles.title}>{user.username}</Title>
+                            <Caption style={styles.caption}>@{user.username}</Caption>
                         </View>
                         </View>
                     </View>

@@ -5,11 +5,11 @@ import actionTypes from "./action-types"
 const ip = {
     casa: '192.168.1.53',
     cala: '192.168.1.49',
-    feina: '10.0.4.176',
+    feina: '10.0.8.119',
 }
 
 export function loadUsers(){
-        return axios.get(`http://${ip.casa}:3000/api/users/`).then((list)=>{ 
+        return axios.get(`http://${ip.feina}:3000/api/users/`).then((list)=>{ 
         dispatcher.dispatch({
                 type: actionTypes.USERS_LIST,
                 data: list.data
@@ -21,7 +21,7 @@ export function loadUsers(){
 }
 
 export default function newUser(userName, userDepartment, userPassword, userToken){
-    return axios.post(`http://${ip.casa}:3000/api/users/add`, {
+    return axios.post(`http://${ip.feina}:3000/api/users/add`, {
         username: userName,
         department: userDepartment,
         password: userPassword,
@@ -35,7 +35,7 @@ export default function newUser(userName, userDepartment, userPassword, userToke
 }
 
 export function loadUser(username){
-    return axios.get(`http//${ip.casa}:3000/api/users/${username}`).then((user)=>{
+    return axios.get(`http://${ip.feina}:3000/api/users/${username}`).then((user)=>{
         dispatcher.dispatch({
             type: actionTypes.GET_USER,
             data: user.data

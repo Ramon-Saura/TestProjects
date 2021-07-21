@@ -19,6 +19,11 @@ class LoginStore extends EventEmitter{
     getUsersList(){
         return _users
     }
+    getUser(username){
+        return _users.find(
+            (users) => users.username === username
+          )
+    }
 }
 
 const loginStore = new LoginStore()
@@ -33,6 +38,10 @@ dispatcher.register((action)=>{
                 ...users,
                 {...action.data}
             ]
+            loginStore.emitChange()
+        break
+        case actionTypes.GET_USER:
+            _users = action.data
             loginStore.emitChange()
         break
     }
