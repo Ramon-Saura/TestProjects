@@ -9,7 +9,7 @@ import loginStore from '../../store/login-store'
 
 export function DrawerContent({state, navigation, ...props}){
     const username = state.routes[0].params.username
-    const [user, setUser] =  React.useState(loginStore.getUser(username))
+    const user =  React.useState(loginStore.getUser(username))
 
     const { signOut } = React.useContext(AuthContext)
 
@@ -26,8 +26,8 @@ export function DrawerContent({state, navigation, ...props}){
                             size={50}    
                             />
                             <View style={{marginLeft: 15, flexDirection:'column'}}>
-                            <Title style={styles.title}>{user.username}</Title>
-                            <Caption style={styles.caption}>@{user.username}</Caption>
+                            <Title style={styles.title}>{username}</Title>
+                            <Caption style={styles.caption}>@{username}</Caption>
                         </View>
                         </View>
                     </View>
@@ -41,7 +41,7 @@ export function DrawerContent({state, navigation, ...props}){
                                 />
                             )}
                             label='Home'
-                            onPress={()=>{props.navigation.navigate('Main')}}
+                            onPress={()=>{navigation.navigate('Main')}}
                         />
                         <DrawerItem
                             icon={({color, size})=>(
@@ -52,7 +52,7 @@ export function DrawerContent({state, navigation, ...props}){
                                 />
                             )}
                             label='Profile'
-                            onPress={()=>{props.navigation.navigate('Profile')}}
+                            onPress={()=>{navigation.navigate('Profile')}}
                         />
                     </Drawer.Section>
                 </View>

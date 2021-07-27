@@ -5,7 +5,7 @@ import actionTypes from "./action-types"
 const ip = {
     casa: '192.168.1.53',
     cala: '192.168.1.49',
-    feina: '10.0.8.119',
+    feina: '10.0.10.202',
 }
 
 export function loadUsers(){

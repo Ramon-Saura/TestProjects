@@ -35,7 +35,7 @@ function userController(){
         const sql = 'INSERT INTO rooms SET ?'
 
         const newRoom = {
-            state: req.body.state,
+            state: 'libre-limpio',
             number: req.body.number,
             address: req.body.address
         }
